@@ -17,10 +17,12 @@ if "%~2"=="" (
 )
 
 ffmpeg -allowed_extensions ALL -protocol_whitelist "file,http,https,tls,tcp,crypto" -i "%~1" -c copy -f null NUL > ffmpeg.1.log 2>&1
-call fix-m3u8.bat "%~1" ffmpeg.1.log
+
+call "%~dp0fix-m3u8.bat" "%~1" ffmpeg.1.log
 
 set "input=%~1"
 if exist "fixed.m3u8" (
   set "input=fixed.m3u8"
 )
+
 ffmpeg -y -allowed_extensions ALL -protocol_whitelist "file,http,https,tls,tcp,crypto" -i "%input%" -c copy "%output%" > ffmpeg.2.log 2>&1
